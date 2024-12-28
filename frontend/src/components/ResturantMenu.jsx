@@ -17,7 +17,7 @@ const ResturantMenu = () => {
     const restaurantId = resId;
   
     try {
-      const data = await fetch(`http://localhost:3000/api/menu?lat=${lat}&lng=${lng}&restaurantId=${restaurantId}`);
+      const data = await fetch(`https://foodie-restaurant0123.onrender.com/api/menu?lat=${lat}&lng=${lng}&restaurantId=${restaurantId}`);
       if (!data.ok) {
         throw new Error("Failed to fetch menu data");
       }

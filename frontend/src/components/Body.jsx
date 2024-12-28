@@ -13,7 +13,7 @@ const Body = () => {
 
   const fetchData = async () => {
       const response = await fetch(
-       "http://localhost:3000/api/restaurants?lat=16.7049873&lng=74.2432527"
+       "https://foodie-restaurant0123.onrender.com/api/restaurants?lat=16.7049873&lng=74.2432527"
       );
       const fetchedData = await response.json();
       // console.log(fetchedData);
