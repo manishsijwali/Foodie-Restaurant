@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+
+# npm logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# .env file (for storing sensitive data such as API keys, passwords)
+.env
+
+# Build directories (for production builds)
+dist/
+build/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS-specific files
+.DS_Store  # MacOS
+Thumbs.db  # Windows
+
+
+# Build output
+build/
+
+# Logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# OS-specific files
+.DS_Store  # MacOS
+Thumbs.db  # Windows
