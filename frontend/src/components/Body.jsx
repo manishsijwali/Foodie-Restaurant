@@ -12,23 +12,30 @@ const Body = () => {
   }, []);
 
   const fetchData = async () => {
-      const response = await fetch(
-       "https://foodie-restaurant0123.onrender.com/api/restaurants?lat=16.7049873&lng=74.2432527"
-      );
-      const fetchedData = await response.json();
-      // console.log(fetchedData);
-      const {
-        data: {
-          cards: [, { card }],
-        },
-      } = fetchedData;
-      const {
-        card: {
-          gridElements: { infoWithStyle: { restaurants } },
-        },
-      } = card;
-      setRestaurantList(restaurants);
-  };
+    try {
+       const response = await fetch(
+          "https://foodie-restaurant0123.onrender.com/api/restaurants?lat=16.7049873&lng=74.2432527"
+       );
+       const fetchedData = await response.json();
+ 
+       // Check if the response has the expected structure
+       const {
+          data: {
+             cards: [, { card }],
+          },
+       } = fetchedData;
+ 
+       if (card && card.gridElements && card.gridElements.infoWithStyle) {
+          const { restaurants } = card.gridElements.infoWithStyle;
+          setRestaurantList(restaurants || []); // Use an empty array if restaurants is undefined
+       } else {
+          console.error("Error: infoWithStyle or restaurants is missing");
+       }
+    } catch (error) {
+       console.error("Error fetching data:", error);
+    }
+ };
+ 
 
   const handleSearch = () => {
     const filteredRestaurants = restaurantList.filter(
