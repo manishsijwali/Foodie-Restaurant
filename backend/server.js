@@ -5,13 +5,13 @@ const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS (Cross-Origin Resource Sharing)
+
 app.use(cors());
 
 // API to get restaurant list (Restaurant Cards)
 app.get('/api/restaurants', async (req, res) => {
-  const lat = req.query.lat || "30.7740394"; 
-  const lng = req.query.lng || "76.7967544"; 
+  const lat = req.query.lat || "12.971599"; 
+  const lng = req.query.lng || "77.594566"; 
 
   // URL for Swiggy's restaurant list with dynamic coordinates
   const url = `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&page_type=DESKTOP_WEB_LISTING`;
