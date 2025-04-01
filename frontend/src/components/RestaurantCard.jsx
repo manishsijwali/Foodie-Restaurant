@@ -1,23 +1,34 @@
 import React from "react";
 import { CDN_URL } from "../Utils/Constants";
 
-const RestaurantCard = (props) => {
-  let { resdata } = props;
-  // console.log(resdata);
-  let { name, cuisines, avgRating, locality, cloudinaryImageId, costForTwo } =
-    resdata?.info;
+const RestaurantCard = ({ resdata }) => {
+  if (!resdata || !resdata.info) {
+    return <div>No restaurant data available</div>;
+  }
+
+  const { name, cuisines, avgRating, locality, cloudinaryImageId, costForTwo } =
+    resdata.info;
 
   return (
-    <>
-      <div className="m-3 shadow-md h-98 w-60">
-        <img className="h-56 w-60" src={CDN_URL + cloudinaryImageId} alt="" />
-        <h3>{name}</h3>
-        <h5>{cuisines.join(", ")}</h5>
-        <h5>Rating = {avgRating}</h5>
-        <h4>{costForTwo}</h4>
-        <h4>{locality}</h4>
+    <div className="m-4 bg-white rounded-lg shadow-lg ">
+      <img
+        className="w-full h-56 object-cover"
+        src={CDN_URL + cloudinaryImageId}
+        alt={`Image of ${name}`}
+      />
+      <div className="p-4">
+        <h3 className="text-xl font-semibold text-gray-800 truncate">{name}</h3>
+        <h5 className="text-sm text-gray-600 mt-1">{cuisines.join(", ")}</h5>
+        <div className="flex items-center mt-2">
+          <span className="text-yellow-500 font-semibold">{avgRating}</span>
+          <span className="ml-2 text-gray-500">Rating</span>
+        </div>
+        <div className="mt-3 text-gray-700">
+          <h4 className="text-sm">Cost for Two: {costForTwo}</h4>
+          <h4 className="text-sm">Location: {locality}</h4>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
