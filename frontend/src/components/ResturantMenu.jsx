@@ -17,7 +17,7 @@ const RestaurantMenu = () => {
 
     try {
       const response = await fetch(
-        `https://foodie-restaurant0123.onrender.com/api/menu?lat=${lat}&lng=${lng}&restaurantId=${resId}`
+        `https://foodie-hub-backend-1.onrender.com/api/menu?lat=${lat}&lng=${lng}&restaurantId=${resId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch menu data");

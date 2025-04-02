@@ -19,7 +19,7 @@ const Body = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://foodie-restaurant0123.onrender.com/api/restaurants?lat=16.7049873&lng=74.2432527"
+        "https://foodie-hub-backend-1.onrender.com/api/restaurants?lat=16.7049873&lng=74.2432527"
       );
       const fetchedData = await response.json();
 
