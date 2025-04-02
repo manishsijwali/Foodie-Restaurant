@@ -13,7 +13,6 @@ const Body = () => {
   }, []);
 
   useEffect(() => {
-    // Set the filtered restaurants to the full list when the data is loaded
     setFilteredRestaurants(restaurantList);
   }, [restaurantList]);
 
@@ -26,24 +25,16 @@ const Body = () => {
 
       console.log("Full API Response:", fetchedData);
 
-      if (!fetchedData?.data?.cards) {
-        console.error("Error: 'cards' array is missing.");
-        return;
-      }
-
-      // Dynamically find the correct card containing restaurant data
-      const restaurantCard = fetchedData.data.cards.find(
+      const restaurantCard = fetchedData?.data?.cards?.find(
         (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
       )?.card?.card;
-
-      console.log("Restaurant Card:", restaurantCard);
 
       if (!restaurantCard) {
         console.error("Error: No valid restaurant data found.");
         return;
       }
 
-      const restaurants = restaurantCard.gridElements.infoWithStyle.restaurants;
+      const restaurants = restaurantCard.gridElements.infoWithStyle.restaurants || [];
       console.log("Extracted Restaurants:", restaurants);
 
       setRestaurantList(restaurants);
@@ -52,61 +43,63 @@ const Body = () => {
     }
   };
 
-  const handleSearch = () => {
-    if (!searchText) {
-      setFilteredRestaurants(restaurantList);
-      return;
-    }
-    const filtered = restaurantList.filter((restaurant) =>
-      restaurant.info.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setFilteredRestaurants(filtered);
-  };
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (!searchText) {
+        setFilteredRestaurants(restaurantList);
+        return;
+      }
+      const filtered = restaurantList.filter((restaurant) =>
+        restaurant.info.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredRestaurants(filtered);
+    }, 300); // Debounce input
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchText, restaurantList]);
 
   const handleTopRatedFilter = () => {
-    const topRated = restaurantList.filter(
-      (restaurant) => restaurant.info.avgRating > 4.5
-    );
-    setFilteredRestaurants(topRated);
+    setFilteredRestaurants(restaurantList.filter((r) => r.info.avgRating > 4.5));
   };
 
   const onlineStatus = useOnlineStatus();
-  if (!onlineStatus) return <h1>Check Your Connection</h1>;
+  if (!onlineStatus) return <h1 className="text-red-500 text-center mt-6">Check Your Connection</h1>;
 
   return (
-    <div className="search p-4">
-      <input
-        className="border-2 border-black rounded-md p-2 mr-2"
-        type="text"
-        placeholder="Search for a restaurant..."
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-      />
-      <button
-        className="border-black border-2 p-2 rounded-md bg-gray-200 hover:bg-gray-300"
-        onClick={handleSearch}
-      >
-        Search
-      </button>
-      <button
-        className="border-black border-2 p-2 ml-2 rounded-md bg-green-200 hover:bg-green-300"
-        onClick={handleTopRatedFilter}
-      >
-        Filter Top Rated
-      </button>
+    <div className="p-4 max-w-full mx-auto">
+      {/* Search and Filter */}
+      <div className="flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4">
+        <input
+          className="w-full sm:w-auto border-2 border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all text-sm md:text-base"
+          type="text"
+          placeholder="Search for a restaurant..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button
+          className="w-full sm:w-auto border-2 border-gray-500 p-2 px-6 rounded-md bg-gray-200 hover:bg-gray-300 transition-all text-sm md:text-base"
+          onClick={() => setFilteredRestaurants(restaurantList)}
+        >
+          Reset
+        </button>
+        <button
+          className="w-full sm:w-auto border-2 border-green-500 p-2 rounded-md bg-green-200 hover:bg-green-300 transition-all text-sm md:text-base"
+          onClick={handleTopRatedFilter}
+        >
+          Filter Top Rated
+        </button>
+      </div>
 
-      <div className="grid gap-4 grid-cols-5 grid-rows-3 mt-4">
+      {/* Restaurant Grid */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-6">
         {filteredRestaurants.length > 0 ? (
           filteredRestaurants.map((restaurant) => (
-            <Link
-              key={restaurant.info.id}
-              to={`/restaurants/${restaurant.info.id}`}
-            >
+            <Link key={restaurant.info.id} to={`/restaurants/${restaurant.info.id}`}>
               <RestaurantCard resdata={restaurant} />
             </Link>
           ))
         ) : (
-          <p>No restaurants found</p>
+          <p className="text-center col-span-full text-gray-500">No restaurants found</p>
         )}
       </div>
     </div>

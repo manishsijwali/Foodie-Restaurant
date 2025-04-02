@@ -1,25 +1,65 @@
+import { useState } from "react";
 import { LOGO_URL } from "../Utils/Constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
 import { useSelector } from "react-redux";
+import { FaBars, FaTimes } from "react-icons/fa"; // Import icons for toggle
 
 const Navbar = () => {
-  const onlineStatus = useOnlineStatus()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const onlineStatus = useOnlineStatus();
+  const cart = useSelector((store) => store.cart.items);
 
-  const cart = useSelector((store)=>store.cart.items)
   return (
-    <div>
-      <nav className="flex justify-between bg-gray-200 shadow-lg mb-2 ">
-        <img className="w-28" src={LOGO_URL} alt="" />
-        <ul className="flex p-4 m-4 gap-8">
-          <li>Online Status : {onlineStatus ? "✅" : "🔴"}</li>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About Us</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-          <li><Link to="/cart">Cart - ({cart.length})</Link></li>
+    <nav className="bg-gray-200 shadow-lg">
+      <div className="flex items-center justify-between px-6 py-3">
+        {/* Logo */}
+        <div>
+          <img className="w-24" src={LOGO_URL} alt="Logo" />
+        </div>
+
+        {/* Desktop Menu (Hidden on Small Screens) */}
+        <ul className="hidden md:flex space-x-6 text-lg font-medium">
+          <li className={onlineStatus ? "text-green-600 font-semibold" : "text-red-500 font-semibold"}>
+            {onlineStatus ? "✅ Online" : "🔴 Offline"}
+          </li>
+          <li><Link to="/" className="hover:text-gray-700">Home</Link></li>
+          <li><Link to="/about" className="hover:text-gray-700">About</Link></li>
+          <li><Link to="/contact" className="hover:text-gray-700">Contact</Link></li>
+          <li>
+            <Link to="/cart" className="bg-black text-white px-3 py-1 rounded hover:bg-gray-900 transition">
+              Cart ({cart.length})
+            </Link>
+          </li>
         </ul>
-      </nav>
-    </div>
+
+        {/* Mobile Menu Toggle Button */}
+        <button className="md:hidden text-2xl" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          {isMenuOpen ? <FaTimes /> : <FaBars />} {/* Toggle Icons */}
+        </button>
+      </div>
+
+      {/* Mobile Menu (Visible Only When Open) */}
+      <div className={`${isMenuOpen ? "block" : "hidden"} md:hidden bg-gray-100 py-4`}>
+        <ul className="flex flex-col items-center space-y-4 text-lg font-medium">
+          <li className={onlineStatus ? "text-green-600 font-semibold" : "text-red-500 font-semibold"}>
+            {onlineStatus ? "✅ Online" : "🔴 Offline"}
+          </li>
+          <li><Link to="/" className="hover:text-gray-700" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
+          <li><Link to="/about" className="hover:text-gray-700" onClick={() => setIsMenuOpen(false)}>About</Link></li>
+          <li><Link to="/contact" className="hover:text-gray-700" onClick={() => setIsMenuOpen(false)}>Contact</Link></li>
+          <li>
+            <Link 
+              to="/cart" 
+              className="bg-black text-white px-3 py-1 rounded hover:bg-gray-900 transition"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Cart ({cart.length})
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 };
 
