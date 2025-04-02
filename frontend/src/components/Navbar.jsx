@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <div>
-          <img className="w-24" src={LOGO_URL} alt="Logo" />
+          <img className="w-24 rounded-full" src={LOGO_URL} alt="Logo" />
         </div>
 
         {/* Desktop Menu (Hidden on Small Screens) */}
