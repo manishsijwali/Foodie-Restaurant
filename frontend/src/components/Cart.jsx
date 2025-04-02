@@ -41,7 +41,7 @@ const Cart = () => {
   );
 
   return (
-    <div className="text-center m-4 p-4 mt-28">
+    <div className="text-center m-4 p-4 lg:mt-28 mt-16">
       <h1 className="text-2xl md:text-3xl font-bold">Shopping Cart 🛒</h1>
 
       <div className="w-full sm:w-8/12 md:w-6/12 mx-auto mt-4 p-4 border border-gray-300 rounded-lg shadow-md">

@@ -80,11 +80,11 @@ const Navbar = () => {
       >
         {/* Mobile Menu (Slide In) */}
         <div
-          className={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform transition-transform duration-300 p-6 flex flex-col ${
+          className={`fixed top-0 left-0 w-60 h-full bg-black text-white shadow-lg  transform transition-transform duration-300 p-6 flex flex-col ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <ul className="flex flex-col items-center space-y-6 text-lg font-medium mt-10">
+          <ul className="flex flex-col items-center space-y-6 text-lg font-medium mt-28">
             <li className={onlineStatus ? "text-green-600 font-semibold" : "text-red-500 font-semibold"}>
               {onlineStatus ? "✅ Online" : "🔴 Offline"}
             </li>

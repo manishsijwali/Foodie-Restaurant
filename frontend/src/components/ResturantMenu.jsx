@@ -43,7 +43,7 @@ const RestaurantMenu = () => {
     ) || [];
 
   return (
-    <div className=" mx-auto mt-28">
+    <div className=" mx-auto lg:mt-28 mt-16">
       {/* Restaurant Info */}
       <div className="bg-cyan-500 text-white text-center p-4 rounded-md shadow-md">
         <h2 className="text-2xl font-semibold">{name}</h2>

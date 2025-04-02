@@ -66,7 +66,7 @@ const Body = () => {
   if (!onlineStatus) return <h1 className="text-red-500 text-center mt-6">Check Your Connection</h1>;
 
   return (
-    <div className="p-4 max-w-full mx-auto mt-28">
+    <div className="p-4 max-w-full mx-auto lg:mt-28 mt-16">
       {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4">
         <input
